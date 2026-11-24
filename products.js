@@ -22,7 +22,7 @@ const products = [
   { name: "ছিটকিনি",          price: 80,   unit: "পিস",  cat: "তালা ও ছিটকিনি", img: "" },
   { name: "পিভিসি পাইপ (১/২ ইঞ্চি)", price: 45, unit: "ফুট", cat: "পাইপ ও ফিটিংস", img: "" },
   { name: "কল (ট্যাপ)",        price: 220,  unit: "পিস",  cat: "পাইপ ও ফিটিংস", img: "" },
-  { name: "অকটেন",            price: 175,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
-  { name: "পেট্রোল",           price: 170,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
+  { name: "অকটেন",            price: 176,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "octane_jpg.png" },
+  { name: "পেট্রোল",           price: 170,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "petrol_jpg.png" },
   { name: "ডিজেল",            price: 140,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
 ];
