@@ -141,6 +141,7 @@
   <small style="opacity:.7">Created by Habibur Rahman Miraj</small>
 </footer>
 
+<script src="products.js"></script>
 <script>
   // ============================================================
   //  এখানে আপনার দোকানের নম্বর দিন (দেশের কোড সহ, + ছাড়া)
@@ -148,35 +149,6 @@
   // ============================================================
   const PHONE = "8801880888325";
 
-  // ============================================================
-  //  নতুন জিনিস ও দাম যোগ করার জায়গা
-  //  নিচের একটা লাইন কপি করে নিচে পেস্ট করুন, তারপর নাম/দাম বদলান।
-  //  শেষে কমা (,) দিতে ভুলবেন না।
-  //
-  //  name  = জিনিসের নাম
-  //  price = দাম (শুধু সংখ্যা)
-  //  unit  = কিসের দাম (পিস, কেজি, ফুট, ইত্যাদি)
-  //  cat   = ক্যাটাগরি
-  //  img   = ছবির লিংক বা ফাইলের নাম (না থাকলে "" রাখুন)
-  // ============================================================
-  const products = [
-    { name: "হাতুড়ি",          price: 250,  unit: "পিস",  cat: "হ্যান্ড টুলস", img: "" },
-    { name: "স্ক্রু ড্রাইভার সেট", price: 350,  unit: "সেট",  cat: "হ্যান্ড টুলস", img: "" },
-    { name: "প্লাস",            price: 280,  unit: "পিস",  cat: "হ্যান্ড টুলস", img: "" },
-    { name: "রেঞ্চ",            price: 420,  unit: "পিস",  cat: "হ্যান্ড টুলস", img: "" },
-    { name: "ইলেকট্রিক ড্রিল মেশিন", price: 3500, unit: "পিস",  cat: "পাওয়ার টুলস", img: "" },
-    { name: "গ্রাইন্ডার মেশিন",   price: 4200, unit: "পিস",  cat: "পাওয়ার টুলস", img: "" },
-    { name: "ওয়াল পেইন্ট (১ গ্যালন)", price: 1800, unit: "গ্যালন", cat: "রং",          img: "" },
-    { name: "তুলি",            price: 60,   unit: "পিস",  cat: "রং",          img: "" },
-    { name: "তালা (মাঝারি)",     price: 300,  unit: "পিস",  cat: "তালা ও ছিটকিনি", img: "" },
-    { name: "ছিটকিনি",          price: 80,   unit: "পিস",  cat: "তালা ও ছিটকিনি", img: "" },
-    { name: "পিভিসি পাইপ (১/২ ইঞ্চি)", price: 45, unit: "ফুট", cat: "পাইপ ও ফিটিংস", img: "" },
-    { name: "কল (ট্যাপ)",        price: 220,  unit: "পিস",  cat: "পাইপ ও ফিটিংস", img: "" },
-    { name: "অকটেন",            price: 175,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
-    { name: "পেট্রোল",           price: 170,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
-    { name: "ডিজেল",            price: 140,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
-    { name: "কেরোসিন",    price: 170, unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
-  ];
 
   // ===== নিচের অংশ পরিবর্তন করার দরকার নেই =====
   const grid = document.getElementById("grid");
@@ -211,7 +183,7 @@
     grid.innerHTML = list.map(p => {
       const msg = encodeURIComponent("আমি " + p.name + " কিনতে চাই।");
       const img = p.img
-        ? `<img src="${p.img}" alt="${p.name}">`
+        ? `<img src="images/${p.img}" alt="${p.name}">`
         : `<img alt="" src="data:image/svg+xml;utf8,${encodeURIComponent(
             '<svg xmlns="http://www.w3.org/2000/svg" width="220" height="160"><rect width="100%" height="100%" fill="#e4e7eb"/><text x="50%" y="55%" font-size="40" text-anchor="middle" fill="#9aa5b1">🔧</text></svg>'
           )}">`;
