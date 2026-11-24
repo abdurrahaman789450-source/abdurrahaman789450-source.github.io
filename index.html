@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>জিসান হার্ডওয়্যার</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --main: #d9480f;
+    --dark: #1f2933;
+    --bg: #f5f6f8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans Bengali', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+  }
+
+  /* ===== উপরের বার ===== */
+  header {
+    background: var(--dark);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  /* বাম পাশের JR লোগো */
+  .logo {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--main);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 20px;
+    border: 3px solid #fff;
+    flex-shrink: 0;
+  }
+  /* দোকানের নামের গোল ক্যাপ */
+  .shop-name {
+    background: #fff;
+    color: var(--dark);
+    padding: 8px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  /* ===== সার্চ ও ক্যাটাগরি ===== */
+  .tools {
+    max-width: 1100px;
+    margin: 20px auto 0;
+    padding: 0 16px;
+  }
+  .tools input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-family: inherit;
+    border: 1px solid #cbd2d9;
+    border-radius: 10px;
+  }
+  .cats { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .cats button {
+    font-family: inherit;
+    padding: 6px 16px;
+    border: 1px solid var(--main);
+    background: #fff;
+    color: var(--main);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .cats button.active { background: var(--main); color: #fff; }
+
+  /* ===== পণ্যের কার্ড ===== */
+  .grid {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    display: flex; flex-direction: column;
+  }
+  .card img {
+    width: 100%; height: 160px;
+    object-fit: cover;
+    background: #e4e7eb;
+  }
+  .card .body { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .card h3 { font-size: 17px; }
+  .card .cat { font-size: 12px; color: #7b8794; }
+  .card .price { font-size: 20px; font-weight: 700; color: var(--main); margin-top: auto; }
+  .card a {
+    text-align: center;
+    background: #25d366;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .empty { text-align: center; padding: 40px; color: #7b8794; }
+
+  footer {
+    background: var(--dark); color: #cbd2d9;
+    text-align: center; padding: 20px; margin-top: 30px; font-size: 14px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">JR</div>
+  <div class="shop-name">জিসান হার্ডওয়্যার</div>
+</header>
+
+<div class="tools">
+  <input id="search" type="text" placeholder="পণ্য খুঁজুন... (যেমন: হাতুড়ি)">
+  <div class="cats" id="cats"></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  জিসান হার্ডওয়্যার<br>
+  ঠিকানা: ঘাটঘর, পরশুরাম, ফেনী<br>
+  মোবাইল: ০১৮৮০৮৮৮৩২৫<br>
+  <small style="opacity:.7">Created by Habibur Rahman Miraj</small>
+</footer>
+
+<script>
+  // ============================================================
+  //  এখানে আপনার দোকানের নম্বর দিন (দেশের কোড সহ, + ছাড়া)
+  //  যেমন: 8801712345678
+  // ============================================================
+  const PHONE = "8801880888325";
+
+  // ============================================================
+  //  নতুন জিনিস ও দাম যোগ করার জায়গা
+  //  নিচের একটা লাইন কপি করে নিচে পেস্ট করুন, তারপর নাম/দাম বদলান।
+  //  শেষে কমা (,) দিতে ভুলবেন না।
+  //
+  //  name  = জিনিসের নাম
+  //  price = দাম (শুধু সংখ্যা)
+  //  unit  = কিসের দাম (পিস, কেজি, ফুট, ইত্যাদি)
+  //  cat   = ক্যাটাগরি
+  //  img   = ছবির লিংক বা ফাইলের নাম (না থাকলে "" রাখুন)
+  // ============================================================
+  const products = [
+    { name: "হাতুড়ি",          price: 250,  unit: "পিস",  cat: "হ্যান্ড টুলস", img: "" },
+    { name: "স্ক্রু ড্রাইভার সেট", price: 350,  unit: "সেট",  cat: "হ্যান্ড টুলস", img: "" },
+    { name: "প্লাস",            price: 280,  unit: "পিস",  cat: "হ্যান্ড টুলস", img: "" },
+    { name: "রেঞ্চ",            price: 420,  unit: "পিস",  cat: "হ্যান্ড টুলস", img: "" },
+    { name: "ইলেকট্রিক ড্রিল মেশিন", price: 3500, unit: "পিস",  cat: "পাওয়ার টুলস", img: "" },
+    { name: "গ্রাইন্ডার মেশিন",   price: 4200, unit: "পিস",  cat: "পাওয়ার টুলস", img: "" },
+    { name: "ওয়াল পেইন্ট (১ গ্যালন)", price: 1800, unit: "গ্যালন", cat: "রং",          img: "" },
+    { name: "তুলি",            price: 60,   unit: "পিস",  cat: "রং",          img: "" },
+    { name: "তালা (মাঝারি)",     price: 300,  unit: "পিস",  cat: "তালা ও ছিটকিনি", img: "" },
+    { name: "ছিটকিনি",          price: 80,   unit: "পিস",  cat: "তালা ও ছিটকিনি", img: "" },
+    { name: "পিভিসি পাইপ (১/২ ইঞ্চি)", price: 45, unit: "ফুট", cat: "পাইপ ও ফিটিংস", img: "" },
+    { name: "কল (ট্যাপ)",        price: 220,  unit: "পিস",  cat: "পাইপ ও ফিটিংস", img: "" },
+    { name: "অকটেন",            price: 175,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
+    { name: "পেট্রোল",           price: 170,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
+    { name: "ডিজেল",            price: 140,  unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
+    { name: "কেরোসিন",    price: 170, unit: "লিটার", cat: "জ্বালানি ও বাইকের তেল", img: "" },
+  ];
+
+  // ===== নিচের অংশ পরিবর্তন করার দরকার নেই =====
+  const grid = document.getElementById("grid");
+  const catsBox = document.getElementById("cats");
+  const search = document.getElementById("search");
+  let activeCat = "সব";
+
+  const toBn = n => Number(n).toLocaleString("bn-BD");
+
+  function renderCats() {
+    const cats = ["সব", ...new Set(products.map(p => p.cat))];
+    catsBox.innerHTML = "";
+    cats.forEach(c => {
+      const b = document.createElement("button");
+      b.textContent = c;
+      if (c === activeCat) b.className = "active";
+      b.onclick = () => { activeCat = c; renderCats(); renderProducts(); };
+      catsBox.appendChild(b);
+    });
+  }
+
+  function renderProducts() {
+    const q = search.value.trim().toLowerCase();
+    const list = products.filter(p =>
+      (activeCat === "সব" || p.cat === activeCat) &&
+      p.name.toLowerCase().includes(q)
+    );
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty">কোনো পণ্য পাওয়া যায়নি</div>';
+      return;
+    }
+    grid.innerHTML = list.map(p => {
+      const msg = encodeURIComponent("আমি " + p.name + " কিনতে চাই।");
+      const img = p.img
+        ? `<img src="${p.img}" alt="${p.name}">`
+        : `<img alt="" src="data:image/svg+xml;utf8,${encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="220" height="160"><rect width="100%" height="100%" fill="#e4e7eb"/><text x="50%" y="55%" font-size="40" text-anchor="middle" fill="#9aa5b1">🔧</text></svg>'
+          )}">`;
+      return `
+        <div class="card">
+          ${img}
+          <div class="body">
+            <div class="cat">${p.cat}</div>
+            <h3>${p.name}</h3>
+            <div class="price">৳ ${toBn(p.price)} / ${p.unit}</div>
+            <a href="https://wa.me/${PHONE}?text=${msg}" target="_blank">হোয়াটসঅ্যাপে অর্ডার করুন</a>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  search.addEventListener("input", renderProducts);
+  renderCats();
+  renderProducts();
+</script>
+</body>
+</html>
